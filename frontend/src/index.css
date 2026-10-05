@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #FBF7F0;
+  color: #1b1b1f;
+}
+
+.font-display { font-family: 'Fraunces', Georgia, serif; letter-spacing: -0.01em; }
+
+code { font-family: source-code-pro, Menlo, Monaco, Consolas, monospace; }
+
+@layer base {
+  :root {
+    --background: 40 50% 97%;
+    --foreground: 240 6% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 6% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 6% 10%;
+    --primary: 240 6% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 40 30% 94%;
+    --secondary-foreground: 240 6% 10%;
+    --muted: 40 20% 92%;
+    --muted-foreground: 240 5% 40%;
+    --accent: 40 30% 94%;
+    --accent-foreground: 240 6% 10%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 40 20% 88%;
+    --input: 40 20% 88%;
+    --ring: 240 6% 10%;
+    --radius: 1rem;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground; }
+}
