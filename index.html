@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>iclone — Il tuo assistente personale</title>
+<style>
+:root{--bg:#f7f7fb;--card:#fff;--text:#171827;--muted:#74778a;--line:#ececf3;--purple:#7657ff;--pink:#ff5fa2;--cyan:#38c8e8;--green:#36c98f;--yellow:#ffc857;--shadow:0 14px 40px rgba(37,29,84,.09)}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-height:100vh;display:flex}.sidebar{width:250px;background:#fff;border-right:1px solid var(--line);padding:24px 16px;position:fixed;inset:0 auto 0 0;z-index:10}.brand{display:flex;align-items:center;gap:10px;padding:5px 10px 28px;font-size:22px;font-weight:800}.logo{width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,var(--purple),var(--pink));display:grid;place-items:center;color:white;font-weight:900;box-shadow:0 8px 20px #7657ff33}.nav{display:grid;gap:6px}.nav button{background:transparent;text-align:left;padding:12px 13px;border-radius:12px;color:#66697b;display:flex;align-items:center;gap:12px}.nav button:hover,.nav button.active{background:#f1efff;color:var(--purple);font-weight:700}.profile{position:absolute;bottom:18px;left:16px;right:16px;background:#f7f6ff;border-radius:15px;padding:12px;display:flex;align-items:center;gap:10px}.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#ffd36a,#ff7cae);font-weight:800;color:white}.main{margin-left:250px;width:calc(100% - 250px);padding:30px;max-width:1500px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}.eyebrow{color:var(--purple);font-weight:700;font-size:13px}.title{font-size:30px;margin:3px 0 0}.iconbtn{width:42px;height:42px;border-radius:13px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow)}.grid{display:grid;grid-template-columns:1.45fr .8fr;gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow)}.hero{min-height:245px;background:linear-gradient(135deg,#eeeaff 0%,#fff 65%);position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:250px;height:250px;border-radius:50%;background:#ff77b326;right:-80px;top:-80px}.hero h2{font-size:27px;margin:5px 0 8px;max-width:600px}.hero p{color:var(--muted);max-width:600px;line-height:1.55}.hero-actions{display:flex;gap:10px;margin-top:20px}.primary{background:linear-gradient(135deg,var(--purple),#a35cff);color:#fff;padding:12px 17px;border-radius:12px;font-weight:700}.secondary{background:#fff;color:var(--text);padding:12px 17px;border-radius:12px;border:1px solid var(--line)}.orb{position:absolute;right:50px;bottom:25px;width:115px;height:115px;border-radius:38px;background:linear-gradient(135deg,var(--purple),var(--pink));display:grid;place-items:center;color:white;font-size:43px;box-shadow:0 18px 40px #7657ff40;transform:rotate(6deg)}.section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}.section-title h3{margin:0;font-size:17px}.link{color:var(--purple);font-size:13px;font-weight:700;background:none}.event{display:flex;align-items:center;gap:13px;padding:12px 0;border-bottom:1px solid var(--line)}.event:last-child{border-bottom:0}.time{width:55px;color:var(--muted);font-size:12px}.dot{width:11px;height:11px;border-radius:50%;background:var(--purple)}.event b{font-size:14px}.event small{display:block;color:var(--muted);margin-top:3px}.suggest{background:linear-gradient(135deg,#fff5d9,#fff);border-color:#ffe8a5}.suggest p{line-height:1.55;color:#5d5133;margin-bottom:0}.chips{display:flex;gap:8px;flex-wrap:wrap}.chip{padding:8px 10px;border-radius:99px;background:#f4f2ff;color:#6550d8;font-size:12px;font-weight:700}.page{display:none}.page.active{display:block}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.stat strong{font-size:25px}.stat span{display:block;color:var(--muted);font-size:12px;margin-top:3px}.chat{display:flex;flex-direction:column;height:calc(100vh - 100px);min-height:600px}.messages{flex:1;overflow:auto;padding:10px 5px}.msg{max-width:75%;padding:13px 15px;border-radius:17px;margin:9px 0;line-height:1.5}.bot{background:#f1efff}.me{background:linear-gradient(135deg,var(--purple),#9d5cff);color:#fff;margin-left:auto}.chatbox{display:flex;gap:10px;border-top:1px solid var(--line);padding-top:14px}.chatbox input{flex:1;border:1px solid var(--line);border-radius:14px;padding:13px 15px;outline:none}.chatbox input:focus{border-color:var(--purple)}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.day{background:#fff;border:1px solid var(--line);min-height:88px;border-radius:13px;padding:9px;font-size:12px}.day b{font-size:13px}.day.today{border:2px solid var(--purple);background:#f7f5ff}.mini{margin-top:9px;background:#eeeaff;color:#624fe0;border-radius:8px;padding:5px;font-size:10px}.form{display:grid;gap:12px}.form input,.form textarea,.form select{width:100%;padding:13px;border:1px solid var(--line);border-radius:12px;background:#fff;outline:none}.memory{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.memory .card{box-shadow:none}.toast{position:fixed;right:25px;bottom:25px;background:#171827;color:white;padding:13px 17px;border-radius:12px;display:none;z-index:50}.mobilebar{display:none}
+@media(max-width:900px){.sidebar{display:none}.main{margin-left:0;width:100%;padding:18px 15px 90px}.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.memory{grid-template-columns:1fr}.orb{right:20px;bottom:20px;width:85px;height:85px;font-size:32px}.mobilebar{display:flex;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);height:68px;z-index:20;justify-content:space-around}.mobilebar button{background:none;color:#777;font-size:11px}.mobilebar button.active{color:var(--purple);font-weight:800}.chat{height:calc(100vh - 100px);min-height:520px}.title{font-size:24px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="logo">i</div> iclone</div>
+  <nav class="nav">
+    <button class="active" data-page="home">🏠 <span>Home</span></button>
+    <button data-page="chat">💬 <span>Parla con iclone</span></button>
+    <button data-page="calendar">📅 <span>Agenda</span></button>
+    <button data-page="memory">🧠 <span>Memoria</span></button>
+    <button data-page="fitness">🏋️ <span>Fitness</span></button>
+    <button data-page="nutrition">🍎 <span>Nutrizione</span></button>
+    <button data-page="notes">📝 <span>Note</span></button>
+    <button data-page="profile">👤 <span>Profilo</span></button>
+  </nav>
+  <div class="profile"><div class="avatar">R</div><div><b>Roberto</b><small style="display:block;color:#777">Il tuo iclone</small></div></div>
+</aside>
+
+<main class="main">
+  <section id="home" class="page active">
+    <div class="top"><div><div class="eyebrow">LUNEDÌ 5 OTTOBRE</div><h1 class="title">Buonasera, Roberto 👋</h1></div><button class="iconbtn" onclick="notify('Nessuna nuova notifica 🔔')">🔔</button></div>
+    <div class="grid">
+      <div>
+        <div class="card hero">
+          <div class="eyebrow">IL TUO ASSISTENTE PERSONALE</div>
+          <h2>Che cosa facciamo oggi?</h2>
+          <p>Ho controllato la tua agenda e le tue preferenze. Hai 3 cose importanti oggi e un allenamento alle 18:30.</p>
+          <div class="hero-actions"><button class="primary" onclick="showPage('chat')">💬 Parla con me</button><button class="secondary" onclick="showPage('calendar')">📅 Vedi agenda</button></div>
+          <div class="orb">🧠</div>
+        </div>
+        <div class="card" style="margin-top:18px">
+          <div class="section-title"><h3>📅 Prossimi impegni</h3><button class="link" onclick="showPage('calendar')">Vedi tutto</button></div>
+          <div class="event"><div class="time">16:30</div><div class="dot"></div><div><b>Studio matematica</b><small>45 minuti • Priorità alta</small></div></div>
+          <div class="event"><div class="time">18:30</div><div class="dot" style="background:var(--green)"></div><div><b>Allenamento</b><small>Palestra • 60 minuti</small></div></div>
+          <div class="event"><div class="time">21:00</div><div class="dot" style="background:var(--pink)"></div><div><b>Tempo libero</b><small>Relax</small></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="card suggest"><div class="section-title"><h3>💡 Suggerimento di iclone</h3></div><p>Hai una giornata piena. Ti conviene preparare la borsa della palestra prima di iniziare a studiare, così dopo puoi andare direttamente ad allenarti.</p><button class="secondary" style="margin-top:15px" onclick="notify('Promemoria impostato per le 16:00 ✓')">🔔 Ricordamelo</button></div>
+        <div class="card" style="margin-top:18px"><div class="section-title"><h3>🧠 Cosa ricordo di te</h3><button class="link" onclick="showPage('memory')">Gestisci</button></div><div class="chips"><span class="chip">🎮 Gaming</span><span class="chip">🏍️ Moto</span><span class="chip">🏋️ Fitness</span><span class="chip">📚 Studio</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="chat" class="page">
+    <div class="top"><div><div class="eyebrow">ASSISTENTE AI</div><h1 class="title">Parla con iclone</h1></div></div>
+    <div class="card chat">
+      <div class="messages" id="messages">
+        <div class="msg bot">Ciao Roberto 👋 Sono qui. Posso aiutarti a organizzare la giornata, ricordarti gli impegni o semplicemente parlare. Cosa hai in mente?</div>
+        <div class="msg me">Cosa devo fare oggi?</div>
+        <div class="msg bot">Alle 16:30 hai matematica, alle 18:30 palestra e alle 21:00 hai segnato tempo libero. Ti consiglio di preparare la borsa prima di studiare. 💡</div>
+      </div>
+      <div class="chatbox"><input id="chatInput" placeholder="Scrivi a iclone..." onkeydown="if(event.key==='Enter')sendMsg()"><button class="primary" onclick="sendMsg()">Invia</button></div>
+    </div>
+  </section>
+
+  <section id="calendar" class="page">
+    <div class="top"><div><div class="eyebrow">ORGANIZZAZIONE</div><h1 class="title">La tua agenda</h1></div><button class="primary" onclick="notify('Nuovo impegno: demo pronta ✓')">＋ Nuovo</button></div>
+    <div class="card"><div class="section-title"><h3>Ottobre 2026</h3><span class="chip">Oggi 5</span></div><div class="calendar">
+      <div class="day"><b>L</b></div><div class="day"><b>M</b></div><div class="day"><b>M</b></div><div class="day"><b>G</b></div><div class="day"><b>V</b></div><div class="day"><b>S</b></div><div class="day"><b>D</b></div>
+      <div class="day today"><b>5</b><div class="mini">16:30 Studio</div><div class="mini">18:30 Palestra</div></div><div class="day"><b>6</b></div><div class="day"><b>7</b><div class="mini">18:30 Palestra</div></div><div class="day"><b>8</b></div><div class="day"><b>9</b></div><div class="day"><b>10</b></div><div class="day"><b>11</b></div>
+      <div class="day"><b>12</b></div><div class="day"><b>13</b></div><div class="day"><b>14</b></div><div class="day"><b>15</b></div><div class="day"><b>16</b></div><div class="day"><b>17</b></div><div class="day"><b>18</b></div>
+    </div></div>
+  </section>
+
+  <section id="memory" class="page">
+    <div class="top"><div><div class="eyebrow">PERSONALIZZAZIONE</div><h1 class="title">La mia memoria</h1></div><button class="primary" onclick="notify('Nuova memoria aggiunta ✓')">＋ Ricorda</button></div>
+    <div class="card"><p style="color:var(--muted)">Queste sono informazioni che iclone usa per rendere le risposte più personali. Nell'app completa ogni memoria sarà modificabile o eliminabile.</p><div class="memory">
+      <div class="card"><b>👤 Profilo</b><p style="color:#777">Nome: Roberto<br>Stile: informale e diretto</p></div>
+      <div class="card"><b>❤️ Interessi</b><p style="color:#777">Moto, gaming, tecnologia</p></div>
+      <div class="card"><b>🏋️ Routine</b><p style="color:#777">Palestra: lunedì, mercoledì, venerdì</p></div>
+      <div class="card"><b>🎯 Obiettivi</b><p style="color:#777">Organizzare meglio la giornata e migliorare le abitudini</p></div>
+    </div></div>
+  </section>
+
+  <section id="fitness" class="page">
+    <div class="top"><div><div class="eyebrow">BENESSERE</div><h1 class="title">Fitness</h1></div></div>
+    <div class="stats"><div class="card stat"><strong>3</strong><span>Allenamenti questa settimana</span></div><div class="card stat"><strong>60 min</strong><span>Sessione prevista oggi</span></div><div class="card stat"><strong>🔥 7</strong><span>Giorni di costanza</span></div></div>
+    <div class="card" style="margin-top:18px"><div class="section-title"><h3>💡 Consiglio di iclone</h3></div><p>Oggi punta sulla qualità dell'allenamento e ascolta il tuo corpo. Mantieni una tecnica corretta, recupera tra le serie e non forzare se avverti dolore.</p><button class="secondary" onclick="showPage('chat')">Chiedi a iclone</button></div>
+  </section>
+
+  <section id="nutrition" class="page">
+    <div class="top"><div><div class="eyebrow">ABITUDINI ALIMENTARI</div><h1 class="title">Nutrizione</h1></div></div>
+    <div class="card"><h3>🎯 Il tuo obiettivo</h3><div class="chips"><span class="chip">Mangiare meglio</span><span class="chip">Fitness</span></div><p style="color:var(--muted);line-height:1.6">Qui iclone potrà aiutarti con idee per pasti, abitudini alimentari e informazioni generali adattate al tuo profilo. Per obiettivi di salute specifici o diete personalizzate è importante confrontarsi con un professionista qualificato.</p><button class="primary" onclick="showPage('chat')">💬 Chiedi a iclone</button></div>
+  </section>
+
+  <section id="notes" class="page">
+    <div class="top"><div><div class="eyebrow">APPUNTI</div><h1 class="title">Le mie note</h1></div></div>
+    <div class="card form"><input placeholder="Titolo della nota"><textarea rows="7" placeholder="Scrivi qui..."></textarea><button class="primary" onclick="notify('Nota salvata nel mockup ✓')">Salva nota</button></div>
+  </section>
+
+  <section id="profile" class="page">
+    <div class="top"><div><div class="eyebrow">ACCOUNT</div><h1 class="title">Il mio profilo</h1></div></div>
+    <div class="card form"><label>Come vuoi che ti chiami?<input value="Roberto"></label><label>Stile di iclone<select><option>Informale e amichevole</option><option>Diretto</option><option>Riflessivo</option></select></label><label>Interessi<input value="Moto, gaming, tecnologia"></label><button class="primary" onclick="notify('Profilo salvato ✓')">Salva modifiche</button></div>
+  </section>
+</main>
+</div>
+<div class="mobilebar">
+  <button class="active" data-page="home">🏠<br>Home</button><button data-page="chat">💬<br>Chat</button><button data-page="calendar">📅<br>Agenda</button><button data-page="memory">🧠<br>Memoria</button><button data-page="profile">👤<br>Profilo</button>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const pages=[...document.querySelectorAll('.page')];
+function showPage(id){pages.forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===id));window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+function notify(t){const x=document.getElementById('toast');x.textContent=t;x.style.display='block';clearTimeout(window.__toast);window.__toast=setTimeout(()=>x.style.display='none',2600)}
+function sendMsg(){const input=document.getElementById('chatInput'), text=input.value.trim();if(!text)return;const box=document.getElementById('messages');box.insertAdjacentHTML('beforeend',`<div class="msg me"></div>`);box.lastElementChild.textContent=text;input.value='';setTimeout(()=>{let reply='Certo. Posso aiutarti a organizzare questa cosa e ricordarla.';if(/domani|oggi|agenda|impegno/i.test(text))reply='Ho controllato il tuo contesto demo: posso incrociare agenda, promemoria e preferenze per suggerirti il momento migliore.';else if(/palestra|allen/i.test(text))reply='Per il tuo allenamento posso aiutarti con indicazioni generali, recupero e organizzazione della routine.';else if(/mangiare|cibo|dieta/i.test(text))reply='Posso darti consigli generali su alimentazione equilibrata e idee per i pasti, tenendo conto del tuo obiettivo.';else if(/sfogo|giornata|male|triste/i.test(text))reply='Ti ascolto. Raccontami cosa è successo e proviamo a mettere ordine nei pensieri, senza giudicarti.';box.insertAdjacentHTML('beforeend',`<div class="msg bot"></div>`);box.lastElementChild.textContent=reply;box.scrollTop=box.scrollHeight},550)}
+</script>
+</body>
+</html>
