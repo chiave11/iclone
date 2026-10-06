@@ -1,0 +1,54 @@
+{
+  "name": "iClone – Il tuo segretario personale",
+  "short_name": "iClone",
+  "description": "Il tuo clone AI personale: segretario, trainer, nutrizionista e supporto psicologico. Pensa come te.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FBF7F0",
+  "theme_color": "#FF6B6B",
+  "lang": "it-IT",
+  "dir": "ltr",
+  "categories": ["productivity", "lifestyle", "health"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Chat col clone",
+      "short_name": "Chat",
+      "url": "/chat",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "I tuoi coach",
+      "short_name": "Coach",
+      "url": "/coach",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Calendario",
+      "short_name": "Agenda",
+      "url": "/calendar",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

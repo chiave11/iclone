@@ -13,7 +13,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: #FBF7F0;
   color: #1b1b1f;
+  overscroll-behavior-y: none;
 }
+
+/* iOS / Android safe areas */
+.safe-top { padding-top: env(safe-area-inset-top, 0); }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0); }
+@supports (padding: max(0px)) {
+  .safe-top { padding-top: max(env(safe-area-inset-top), 0px); }
+  .safe-bottom { padding-bottom: max(env(safe-area-inset-bottom), 0px); }
+}
+
+/* Prevent text selection on tap for app-like feel */
+button, [role="button"] { -webkit-tap-highlight-color: transparent; }
 
 .font-display { font-family: 'Fraunces', Georgia, serif; letter-spacing: -0.01em; }
 
