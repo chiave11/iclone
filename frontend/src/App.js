@@ -11,8 +11,12 @@ import Chat from "./pages/Chat";
 import CalendarPage from "./pages/CalendarPage";
 import Notes from "./pages/Notes";
 import Coach from "./pages/Coach";
+import Pricing from "./pages/Pricing";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentCancel from "./pages/PaymentCancel";
 import NotificationManager from "./components/NotificationManager";
 import PWAInstallPrompt from "./components/PWAInstallPrompt";
+import PaywallModal from "./components/PaywallModal";
 import { Toaster } from "./components/ui/sonner";
 
 const RequireAuth = ({ children }) => {
@@ -44,10 +48,14 @@ function App() {
         <BrowserRouter>
           <NotificationManager />
           <PWAInstallPrompt />
+          <PaywallModal />
           <Routes>
             <Route path="/auth/login" element={<AuthPage mode="login" />} />
             <Route path="/auth/register" element={<AuthPage mode="register" />} />
+            <Route path="/payment/success" element={<PaymentSuccess />} />
+            <Route path="/payment/cancel" element={<PaymentCancel />} />
             <Route path="/onboarding" element={<OnboardingGate />} />
+            <Route path="/pricing" element={<RequireAuth><Pricing /></RequireAuth>} />
             <Route
               path="/"
               element={<RequireAuth><MainGate /></RequireAuth>}

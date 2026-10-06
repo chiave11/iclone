@@ -20,6 +20,10 @@ api.interceptors.response.use(
         window.location.href = "/auth/login";
       }
     }
+    if (err?.response?.status === 402) {
+      // Expose a flag the UI can listen to
+      window.dispatchEvent(new CustomEvent("iclone:paywall", { detail: err.response.data?.detail }));
+    }
     return Promise.reject(err);
   }
 );

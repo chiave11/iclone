@@ -15,6 +15,8 @@ load_dotenv(ROOT_DIR / ".env")
 
 from auth_utils import hash_password, verify_password, create_token, get_current_user_id
 from llm_service import chat_stream_once, generate_text
+from usage import check_and_consume_chat, check_and_consume_coach, is_pro, get_usage, FREE_DAILY_CHAT, FREE_MONTHLY_COACH_PLANS
+from payments import payments_router
 
 mongo_url = os.environ["MONGO_URL"]
 client = AsyncIOMotorClient(mongo_url)
@@ -101,7 +103,7 @@ class CoachPlanIn(BaseModel):
 
 # -------- Helpers --------
 def _public_user(u: dict) -> dict:
-    return {
+    out = {
         "id": u["id"],
         "email": u["email"],
         "name": u.get("name") or "",
@@ -119,13 +121,19 @@ def _public_user(u: dict) -> dict:
         "fitness_goal": u.get("fitness_goal"),
         "activity_level": u.get("activity_level"),
         "diet_preference": u.get("diet_preference"),
+        "is_pro": is_pro(u),
+        "subscription_status": u.get("subscription_status") or "free",
+        "subscription_plan": u.get("subscription_plan"),
+        "credits_balance": u.get("credits_balance", 0),
     }
+    return out
 
 
 async def _get_user(uid: str) -> dict:
     u = await db.users.find_one({"id": uid})
     if not u:
         raise HTTPException(404, "User not found")
+    u.pop("_id", None)
     return u
 
 
@@ -287,6 +295,8 @@ async def chat_history(mode: str, uid: str = Depends(get_current_user_id)):
 @api.post("/chat")
 async def chat_send(data: ChatIn, uid: str = Depends(get_current_user_id)):
     user = await _get_user(uid)
+    # Plan gating
+    await check_and_consume_chat(db, user)
     # load history
     cur = db.chat_messages.find({"user_id": uid, "mode": data.mode}).sort("created_at", 1)
     history = [{"role": d["role"], "text": d["text"]} async for d in cur]
@@ -385,6 +395,8 @@ async def daily_suggestions(uid: str = Depends(get_current_user_id)):
 @api.post("/coach/plan")
 async def coach_plan(data: CoachPlanIn, uid: str = Depends(get_current_user_id)):
     user = await _get_user(uid)
+    # Plan gating
+    await check_and_consume_coach(db, user)
     profile = _public_user(user)
     extra = f"\nNote utente: {data.extra_notes}" if data.extra_notes else ""
 
@@ -434,7 +446,22 @@ async def latest_plan(kind: str, uid: str = Depends(get_current_user_id)):
     return {k: v for k, v in doc.items() if k != "_id"}
 
 
+@api.get("/usage")
+async def my_usage(uid: str = Depends(get_current_user_id)):
+    user = await _get_user(uid)
+    u = await get_usage(db, uid)
+    return {
+        "is_pro": is_pro(user),
+        "chat_today": u["chat_today"],
+        "chat_daily_limit": FREE_DAILY_CHAT,
+        "coach_this_month": u["coach_this_month"],
+        "coach_monthly_limit": FREE_MONTHLY_COACH_PLANS,
+        "credits_balance": user.get("credits_balance", 0),
+    }
+
+
 app.include_router(api)
+app.include_router(payments_router)
 
 app.add_middleware(
     CORSMiddleware,

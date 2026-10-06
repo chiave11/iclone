@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { Home, MessageCircle, Calendar as CalIcon, StickyNote, Sparkles, LogOut, HeartPulse } from "lucide-react";
+import { Home, MessageCircle, Calendar as CalIcon, StickyNote, Sparkles, LogOut, HeartPulse, Crown } from "lucide-react";
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 
@@ -49,7 +49,18 @@ const Layout = () => {
           ))}
         </nav>
 
-        <div className="mt-auto">
+        <div className="mt-auto space-y-3">
+          {!user?.is_pro && (
+            <NavLink to="/pricing" className="block">
+              <div className="rounded-2xl p-4 bg-gradient-to-br from-[#FFE3E3] via-[#FFF3BF] to-[#E5DBFF] border border-[#ece4d3] hover:shadow-md transition-shadow cursor-pointer">
+                <div className="flex items-center gap-2 mb-1">
+                  <Crown className="w-4 h-4 text-[#1b1b1f]" />
+                  <span className="font-display font-bold text-sm">Passa a Pro</span>
+                </div>
+                <p className="text-xs text-[#4a453b]">Chat e Coach illimitati, Psicologo con Claude. -20% primo mese.</p>
+              </div>
+            </NavLink>
+          )}
           <div className="bg-white rounded-2xl p-4 border border-[#ece4d3]">
             <div className="flex items-center gap-3">
               <Avatar className="w-10 h-10 bg-gradient-to-br from-[#FF6B6B] to-[#845EF7]">
@@ -57,8 +68,11 @@ const Layout = () => {
                   {initials}
                 </AvatarFallback>
               </Avatar>
-              <div className="min-w-0">
-                <div className="font-semibold truncate">{user?.name || "Tu"}</div>
+              <div className="min-w-0 flex-1">
+                <div className="font-semibold truncate flex items-center gap-1">
+                  {user?.name || "Tu"}
+                  {user?.is_pro && <Crown className="w-3.5 h-3.5 text-[#FFD43B]" aria-label="Pro" />}
+                </div>
                 <div className="text-xs text-[#6b6659] truncate">{user?.email}</div>
               </div>
             </div>

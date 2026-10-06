@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { colorMap } from "../mock/mock";
+import UsageBadge from "../components/UsageBadge";
 
 const iconMap = { Sun, Coffee, Target, Zap, Heart, Dumbbell, Apple, Brain };
 
@@ -51,6 +52,7 @@ const Dashboard = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-10">
+      <UsageBadge />
       <div className="relative overflow-hidden rounded-3xl p-8 md:p-10 mb-8 border border-[#ece4d3] bg-gradient-to-br from-[#FFE3E3] via-[#FFF3BF] to-[#E5DBFF]">
         <div className="absolute -right-10 -top-10 w-48 h-48 rounded-full bg-white/40 blur-2xl" />
         <div className="absolute right-16 bottom-4 w-24 h-24 rounded-full bg-[#845EF7]/20 blur-xl" />

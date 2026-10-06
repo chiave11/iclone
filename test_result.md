@@ -155,6 +155,51 @@ backend:
           agent: "testing"
           comment: "✅ COACH PLANS WORKING. POST /coach/plan generates comprehensive markdown plans for both fitness (2115 chars) and nutrition (3717 chars). Plans are personalized based on user's physical profile (weight, height, age, fitness_goal). GET /coach/plans/{kind} retrieves latest plan. Note: Nutrition plan generation takes ~45s (within acceptable range for LLM generation)."
 
+  - task: "Stripe payments integration (plans, checkout, status)"
+    implemented: true
+    working: true
+    file: "backend/payments.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "GET /api/payments/plans (public), POST /api/payments/checkout, GET /api/payments/status/{session_id} (public), GET /api/payments/subscription, POST /api/payments/portal, POST /api/stripe/webhook. Stripe catalog with 2 subscriptions (monthly €4.99, yearly €39) and 3 credit packs (100/€2.99, 500/€9.99, 1500/€19.99). Welcome discount (20%) applied on first subscription."
+        - working: true
+          agent: "testing"
+          comment: "✅ STRIPE PAYMENTS FULLY WORKING. GET /payments/plans returns correct catalog: 2 subscriptions (iclone_pro_monthly €4.99/month, iclone_pro_yearly €39/year) and 3 credit packs (100/€2.99, 500/€9.99, 1500/€19.99) with correct credits amounts. POST /payments/checkout creates valid Stripe sessions with checkout_url starting with https://checkout.stripe.com. First subscription has welcome_applied=true, second has welcome_applied=false (verified in MongoDB). Credit pack creates mode=payment session (one-time). GET /payments/status returns pending status (public endpoint works unauthenticated). GET /payments/subscription returns status/plan/credits. POST /payments/portal returns billing portal URL (https://billing.stripe.com) or 400 if no customer. Webhook signature protection working (400 'Invalid signature' without valid signature). All protected endpoints return 403 without auth."
+
+  - task: "Usage tracking and quota enforcement"
+    implemented: true
+    working: true
+    file: "backend/usage.py, backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "GET /api/usage returns is_pro, chat_today, chat_daily_limit (15), coach_this_month, coach_monthly_limit (1), credits_balance. Free users limited to 15 chat messages/day and 1 coach plan/month. Exceeding limits returns 402 with detail.code. Pro users (subscription_status='active') have unlimited access."
+        - working: true
+          agent: "testing"
+          comment: "✅ USAGE TRACKING AND QUOTA ENFORCEMENT FULLY WORKING. GET /usage returns all required fields: is_pro=false, chat_today=0, chat_daily_limit=15, coach_this_month=0, coach_monthly_limit=1, credits_balance=0. Chat quota enforcement: 15 messages work correctly, 16th message returns 402 with detail.code='chat_limit_reached' and proper Italian error message. Coach quota enforcement: 1st plan (fitness) generates successfully, 2nd plan (nutrition) returns 402 with detail.code='coach_limit_reached' and proper Italian error message. Quota tracking persists correctly in MongoDB (usage_daily and usage_monthly collections)."
+
+  - task: "Monetization fields in user model"
+    implemented: true
+    working: true
+    file: "backend/server.py, backend/auth_utils.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "User model extended with is_pro (computed), subscription_status (free/active/canceled), subscription_plan (monthly/yearly), credits_balance (int), stripe_customer_id, stripe_subscription_id. GET /auth/me returns all monetization fields."
+        - working: true
+          agent: "testing"
+          comment: "✅ MONETIZATION FIELDS WORKING. New user registration returns is_pro=false, subscription_status='free', credits_balance=0. GET /auth/me returns all monetization fields correctly. Fields persist across sessions. is_pro is computed based on subscription_status and current_period_end. All fields properly initialized on registration."
+
 frontend:
   - task: "Full iClone frontend"
     implemented: true
@@ -170,22 +215,17 @@ frontend:
 
 metadata:
   created_by: "main_agent"
-  version: "1.0"
-  test_sequence: 1
+  version: "1.1"
+  test_sequence: 2
   run_ui: false
 
 test_plan:
   current_focus:
-    - "Auth: register, login, me (JWT bcrypt)"
-    - "Profile update (onboarding + physical data)"
-    - "Chat with 4 modes using Emergent LLM"
-    - "Coach plans generation (fitness + nutrition)"
-    - "Daily suggestions generation and caching"
-    - "Events CRUD"
-    - "Reminders CRUD with due_at"
-    - "Notes CRUD"
+    - "Stripe payments integration (plans, checkout, status)"
+    - "Usage tracking and quota enforcement"
+    - "Monetization fields in user model"
   stuck_tasks: []
-  test_all: true
+  test_all: false
   test_priority: "high_first"
 
 agent_communication:
@@ -193,3 +233,7 @@ agent_communication:
       message: "Backend complete for iClone with 8 feature areas. All routes under /api, JWT auth required for everything except /api/auth/register and /api/auth/login. Please test the full flow: register -> complete profile -> add events/reminders/notes -> chat in each of 4 modes (verify response not empty, mode-specific tone) -> generate daily suggestions (returns 3 items with icon+text) -> generate coach plans for both fitness and nutrition (require weight+height). Verify data is user-scoped and persists."
     - agent: "testing"
       message: "✅ BACKEND TESTING COMPLETE - ALL 8 FEATURES PASSING. Comprehensive test suite executed with 30 test cases. Results: Auth flow (register/login/me/error handling) ✅, Profile updates (onboarding + physical data) ✅, Events CRUD ✅, Reminders CRUD ✅, Notes CRUD ✅, Chat with 4 LLM modes (general/fitness/nutrition/psychology using gpt-4o-mini and claude-sonnet-5-5) ✅, Daily suggestions with caching ✅, Coach plans (fitness + nutrition) ✅. All endpoints properly protected with JWT auth. Data correctly scoped to users. Emergent LLM integration working perfectly with both OpenAI and Anthropic providers. No critical issues found. Backend is production-ready."
+    - agent: "main"
+      message: "Added Stripe monetization backend: payments.py with /api/payments/plans (public catalog), /api/payments/checkout (creates Stripe sessions with welcome discount on first subscription), /api/payments/status/{session_id} (public), /api/payments/subscription, /api/payments/portal, /api/stripe/webhook. usage.py implements quota enforcement (15 chat/day, 1 coach/month for free users). User model extended with is_pro, subscription_status, subscription_plan, credits_balance. Please test all 13 priority items from the monetization playbook."
+    - agent: "testing"
+      message: "✅ MONETIZATION BACKEND FULLY TESTED - ALL 13 PRIORITY TESTS PASSING. Comprehensive test suite executed covering: (1) GET /payments/plans returns correct catalog with 2 subscriptions and 3 credit packs ✅, (2) User registration includes monetization fields (is_pro=false, subscription_status=free, credits_balance=0) ✅, (3) POST /payments/checkout creates valid Stripe sessions with checkout_url ✅, (4) GET /payments/status returns pending status (public endpoint) ✅, (5) Second checkout has welcome_applied=false (verified in MongoDB) ✅, (6) Credit pack checkout creates mode=payment session (verified in MongoDB) ✅, (7) GET /payments/subscription returns correct free status ✅, (8) GET /usage returns all required fields with correct limits ✅, (9) Chat quota enforcement: 15 messages work, 16th returns 402 with code='chat_limit_reached' ✅, (10) Coach quota enforcement: 1st plan works, 2nd returns 402 with code='coach_limit_reached' ✅, (11) POST /payments/portal returns billing portal URL ✅, (12) Webhook signature protection returns 400 'Invalid signature' ✅, (13) Auth protection: all protected endpoints return 403 without token ✅. MongoDB verification confirms welcome_applied logic and transaction data correctness. No critical issues found. Monetization backend is production-ready."
